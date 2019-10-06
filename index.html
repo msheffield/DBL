@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Don't Be Late!</title>
+
+    <!-- Reset CSS -->
+    <link rel="stylesheet" href="assets/css/reset.css">
+
+    <!-- Link Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+        integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
+
+    <!-- Firebase CDN -->
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
+
+    <!-- Firebase CDN -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <br />
+
+        <div class="jumbotron">
+            <div class="container">
+                <h1>
+                    Don't Be Late!
+                </h1>
+                <h2>
+                    Train Tracker
+                </h2>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Train Schedule</h3>
+                </div>
+
+                <div class="panel-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Train Name</th>
+                                <th scope="col">Destination</th>
+                                <th scope="col">Frequency (min)</th>
+                                <th scope="col">Next Arrival</th>
+                                <th scope="col">Minutes Away</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <br />
+
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Add Train</h3>
+                </div>
+
+                <div class="panel-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Train Name</label>
+                            <input id="new-train-name" type="name" class="form-control"
+                                placeholder="Enter Train Name" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name">Destination</label>
+                            <input id="new-destination" type="name" class="form-control"
+                                placeholder="Enter Destination" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="new-employee-start-date">First Train Time</label>
+                            <input id="new-first-time" type="date" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="new-employee-monthly-rate">Frequency</label>
+                            <input id="new-frequency" type="number" class="form-control"
+                                placeholder="Enter Train Frequency" />
+                        </div>
+
+                        <button id="new-employee-submit" type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Link JQuery CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Link Custom JS -->
+    <script src="../Timesheet_Project/assets/javascript/app.js"></script>
+</body>
+
+</html>

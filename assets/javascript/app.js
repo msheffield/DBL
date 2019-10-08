@@ -11,10 +11,16 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-// 
 var database = firebase.database();
 
-function addToTable(name, destination, frequency, nextArrival, minutesAway) {
+// Adds a row to the table with the given variables
+function addToTable(name, destination, frequency) {
+
+    // Calculate next train time and how many minutes away that is
+    let nextTrainInfo = getTrainTime(frequency, firstime);
+    let minutesAway = nextTrainInfo[0];
+    let nextArrival = nextTrainInfo[1];
+
     let row = $("<tr>");
 
     let newName = $("<td>");
@@ -33,8 +39,6 @@ function addToTable(name, destination, frequency, nextArrival, minutesAway) {
     newNextArrival.text(moment(nextArrival).format("hh:mm"));
     row.append(newNextArrival);
     
-    console.log("debug: " + minutesAway);
-
     let newMinutesAway = $("<td>");
     newMinutesAway.text(minutesAway);
     row.append(newMinutesAway);
@@ -42,6 +46,7 @@ function addToTable(name, destination, frequency, nextArrival, minutesAway) {
     $("#table-body").append(row);
 }
 
+// On click will grab user inputs, add to table, add to database and clear inputs.
 $("#new-train-submit").on("click", function (event) {
     event.preventDefault();
 
@@ -50,12 +55,7 @@ $("#new-train-submit").on("click", function (event) {
     let firstime = $("#new-first-time").val();
     let frequency = $("#new-frequency").val();
 
-    let nextTrainInfo = getTrainTime(frequency, firstime);
-
-    let minutesAway = nextTrainInfo[0];
-    let nextArrival = nextTrainInfo[1];
-
-    addToTable(name, destination, frequency, nextArrival, minutesAway);
+    addToTable(name, destination, frequency);
 
     database.ref().push({
         name: name,

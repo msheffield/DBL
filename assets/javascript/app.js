@@ -7,65 +7,90 @@ var firebaseConfig = {
     storageBucket: "",
     messagingSenderId: "167347271138",
     appId: "1:167347271138:web:d9433f85d40a6f7238f5bb"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
 // 
 var database = firebase.database();
 
-function addToTable(name, role, startdate, monthlyrate) {
+function addToTable(name, destination, frequency, nextArrival, minutesAway) {
     let row = $("<tr>");
 
-    let employeeName = $("<td>");
-    employeeName.text(name);
-    row.append(employeeName);
+    let newName = $("<td>");
+    newName.text(name);
+    row.append(newName);
 
-    let employeeRole = $("<td>");
-    employeeRole.text(role);
-    row.append(employeeRole);
+    let newDestination = $("<td>");
+    newDestination.text(destination);
+    row.append(newDestination);
 
-    let employeeStartdate = $("<td>");
-    employeeStartdate.text(startdate);
-    row.append(employeeStartdate);
+    let newFrequency = $("<td>");
+    newFrequency.text(frequency)
+    row.append(newFrequency);
 
-    let employeeMonthsworked = $("<td>");
-    employeeMonthsworked.text()
-    row.append(employeeMonthsworked);
+    let newNextArrival = $("<td>");
+    newNextArrival.text(moment(nextArrival).format("hh:mm"));
+    row.append(newNextArrival);
+    
+    console.log("debug: " + minutesAway);
 
-    let employeeMonthlyrate = $("<td>");
-    employeeMonthlyrate.text(monthlyrate);
-    row.append(employeeMonthlyrate);
+    let newMinutesAway = $("<td>");
+    newMinutesAway.text(minutesAway);
+    row.append(newMinutesAway);
 
-    let employeeInvoicetotal = $("<td>");
-    employeeInvoicetotal.text();
-    row.append(employeeInvoicetotal);
-
+    $("#table-body").append(row);
 }
 
-$("#new-employee-submit").on("click", function (event) {
+$("#new-train-submit").on("click", function (event) {
     event.preventDefault();
 
-    name = $("#new-employee-name").val().trim();
-    role = $("#new-employee-role").val();
-    startdate = $("#new-employee-start-date").val();
-    monthlyrate = $("#new-employee-monthly-rate").val();
+    let name = $("#new-train-name").val().trim();
+    let destination = $("#new-destination").val().trim();;
+    let firstime = $("#new-first-time").val();
+    let frequency = $("#new-frequency").val();
 
-    $("#new-employee-name").val("");
-    $("#new-employee-role").val("");
-    $("#new-employee-start-date").val("");
-    $("#new-employee-monthly-rate").val("");
+    let nextTrainInfo = getTrainTime(frequency, firstime);
 
-    console.log(name);
-    console.log(role);
-    console.log(startdate);
-    console.log(monthlyrate);
+    let minutesAway = nextTrainInfo[0];
+    let nextArrival = nextTrainInfo[1];
 
-    // Don't forget to provide initial data to your Firebase database.
+    addToTable(name, destination, frequency, nextArrival, minutesAway);
+
     database.ref().push({
-      name: name,
-      role: role,
-      startdate: startdate,
-      monthlyrate: monthlyrate,
+        name: name,
+        destination: destination,
+        firsttime: firstime,
+        frequency: frequency,
     });
-  });
+
+    $("#new-train-name").val("");
+    $("#new-destination").val("");
+    $("#new-first-time").val("");
+    $("#new-frequency").val("");
+
+});
+
+
+function getTrainTime(frequency, firstTime) {
+    let firstTimeMoment = moment(firstTime, "HH:mm").subtract(1, "years");
+    console.log(firstTimeMoment);
+
+    var currentTime = moment();
+    console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+
+    let differenceInTime = moment().diff(moment(firstTimeMoment), "minutes");
+    console.log("DIFFERENCE IN TIME: " + differenceInTime);
+
+    let timeRemainder = differenceInTime % frequency;
+    console.log(timeRemainder);
+
+    let minutesTillTrain = frequency - timeRemainder;
+    console.log("MINUTES TILL TRAIN: " + minutesTillTrain);
+
+    let nextTrain = moment().add(minutesTillTrain, "minutes");
+    console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+
+    return [minutesTillTrain, nextTrain];
+}
+

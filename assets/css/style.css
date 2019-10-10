@@ -1,3 +1,14 @@
 .jumbotron {
     text-align: center;
 }
+
+body {
+    background-image: url(../images/background.jpg);
+    background-size: cover;
+    padding-bottom: 50px;
+}
+
+.panel {
+    padding: 20px;
+    background-color: darkgray;
+}
